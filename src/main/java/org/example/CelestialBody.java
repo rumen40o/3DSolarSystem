@@ -1,6 +1,7 @@
 package org.example;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class CelestialBody {
 
@@ -30,24 +31,21 @@ public class CelestialBody {
     }
 
 
+
+
+
     public Matrix4f getModelMatrix(float time) {
 
-        float orbitalAngle = time * orbitalSpeed;
+        Vector3f position = getPosition(time);
+
         float rotationAngle = time * rotationSpeed;
 
-        float x = (float) (
-                distance * Math.cos(orbitalAngle)
-        );
-
-        float z = (float) (
-                distance * Math.sin(orbitalAngle)
-        );
-
         return new Matrix4f()
-                .translate(x, 0.0f, z)
+                .translate(position)
                 .rotateY(rotationAngle)
                 .scale(radius);
     }
+
 
 
     public void render() {
@@ -74,6 +72,22 @@ public class CelestialBody {
 
     public void setOrbitalSpeed(float orbitalSpeed) {
         this.orbitalSpeed = orbitalSpeed;
+    }
+
+
+    public Vector3f getPosition(float time) {
+
+        float orbitalAngle = time * orbitalSpeed;
+
+        float x = (float) (
+                distance * Math.cos(orbitalAngle)
+        );
+
+        float z = (float) (
+                distance * Math.sin(orbitalAngle)
+        );
+
+        return new Vector3f(x, 0.0f, z);
     }
 
 }

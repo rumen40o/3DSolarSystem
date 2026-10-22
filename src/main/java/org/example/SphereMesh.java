@@ -51,6 +51,11 @@ public class SphereMesh {
                 // Texture coordinates
                 vertices.add((float) j / sectors);
                 vertices.add(1.0f - (float) i / stacks);
+
+                // Normal vector
+                vertices.add(x / radius);
+                vertices.add(y / radius);
+                vertices.add(z / radius);
             }
         }
 
@@ -101,18 +106,30 @@ public class SphereMesh {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexArray, GL_STATIC_DRAW);
 
         // Position attribute
+
+        int stride = 8 * Float.BYTES;
+
+// Position
         glVertexAttribPointer(
                 0, 3, GL_FLOAT, false,
-                5 * Float.BYTES, 0
+                stride, 0
         );
         glEnableVertexAttribArray(0);
 
-        // Texture coordinate attribute
+// Texture coordinates
         glVertexAttribPointer(
                 1, 2, GL_FLOAT, false,
-                5 * Float.BYTES, 3 * Float.BYTES
+                stride, 3 * Float.BYTES
         );
         glEnableVertexAttribArray(1);
+
+// Normal vectors
+        glVertexAttribPointer(
+                2, 3, GL_FLOAT, false,
+                stride, 5 * Float.BYTES
+        );
+        glEnableVertexAttribArray(2);
+
 
         glBindVertexArray(0);
     }

@@ -3,6 +3,7 @@ package org.example;
 import static org.lwjgl.opengl.GL20.*;
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
+import org.joml.Vector3f;
 
 import java.nio.FloatBuffer;
 
@@ -82,6 +83,42 @@ public class ShaderProgram {
     public int getProgramId() {
         return programId;
     }
+
+
+    public void setUniform(String name, Vector3f value) {
+
+        int location = glGetUniformLocation(programId, name);
+
+        if (location == -1) {
+            throw new IllegalArgumentException(
+                    "Uniform not found: " + name
+            );
+        }
+
+        glUniform3f(
+                location,
+                value.x,
+                value.y,
+                value.z
+        );
+    }
+
+    public void setUniform(String name, boolean value) {
+
+        int location = glGetUniformLocation(programId, name);
+
+        if (location == -1) {
+            throw new IllegalArgumentException(
+                    "Uniform not found: " + name
+            );
+        }
+
+        glUniform1i(
+                location,
+                value ? 1 : 0
+        );
+    }
+
 
     public void cleanup() {
         glDeleteProgram(programId);
